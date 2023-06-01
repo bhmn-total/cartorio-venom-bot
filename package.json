@@ -1,0 +1,34 @@
+{
+  "name": "cartorio-venom-bot",
+  "version": "1.0.0",
+  "description": "Bot Whatsapp baseado na lib Venom para exibir o andamento de processos.",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhmn-total/cartorio-venom-bot.git"
+  },
+  "keywords": [
+    "venom",
+    "node",
+    "whatsapp",
+    "processos"
+  ],
+  "author": "Arthur Azevedo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhmn-total/cartorio-venom-bot/issues"
+  },
+  "homepage": "https://github.com/bhmn-total/cartorio-venom-bot#readme",
+  "dependencies": {
+    "venom-bot": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "type": "module"
+}
