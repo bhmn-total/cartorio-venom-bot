@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  cartorio-bot:
+    build: 
+      context: .
+    image: total-bhmn/cartorio-bot:1.0
+    container_name: cartorio-bot-app
+    restart: unless-stopped
+    volumes:
+      - ./tokens:/build/tokens
