@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  cartorio-bot-bd:
+    image: mysql:8.0.17
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: bot-config-bd
+    ports:
+      - "3308:3306"
+  cartorio-bot:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.dev
+    image: total-bhmn/cartorio-bot:1.0
+    container_name: cartorio-bot-app
+    restart: unless-stopped
+    depends_on: 
+      - cartorio-bot-bd
+    volumes:
+      - ./tokens:/app/tokens
+      - ./src:/app/src

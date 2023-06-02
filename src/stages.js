@@ -1,7 +1,8 @@
 import {
     STAGES,
     initialStage,
-    stageOne
+    stageOne,
+    stageTwo
   } from './stages/index.js'
   
   import { storage } from './storage.js'
@@ -14,6 +15,10 @@ import {
     {
       descricao: 'Greetings',
       stage: stageOne
+    },
+    {
+      descricao: 'First Menu',
+      stage: stageTwo
     }
   ]
   

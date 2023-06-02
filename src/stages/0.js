@@ -12,9 +12,8 @@ export const initialStage = {
             const venombot = await VenomBot.getInstance()
 
             const msg = `
-            👋 Olá, como vai?
-            Eu sou o bot da ${venombot.getSessionName}.
-            Digite o seu nome ou 'Sair' caso deseje que eu vá embora...
+            Bem vindo(a) ao atendimento de cartórios. 
+            Para iniciarmos, informe o número TJ do Cartório cadastrado (apenas números) :';
             `
             await venombot.sendText({ to: from, message: msg })
         } else {

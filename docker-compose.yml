@@ -7,4 +7,4 @@ services:
     container_name: cartorio-bot-app
     restart: unless-stopped
     volumes:
-      - ./tokens:/build/tokens
+      - ./tokens:/app/tokens

@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/bhmn-total/cartorio-venom-bot#readme",
   "dependencies": {
-    "venom-bot": "^5.0.1"
+    "venom-bot": "^5.0.1",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
