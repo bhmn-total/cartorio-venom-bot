@@ -9,7 +9,7 @@ export const initialStage = {
 
       const venombot = await VenomBot.getInstance()
 
-      const msg = `Bem vindo(a) ao atendimento de cartórios.\nPara iniciarmos, informe o número TJ do Cartório cadastrado (apenas números):`
+      const msg = `Bem vindo(a) ao atendimento de cartórios.\nCaso queira encerrar o atendimento, digite 'Sair' a qualquer momento.\nPara iniciarmos, favor informar o número TJ do Cartório cadastrado (apenas números):`
       await venombot.sendText({ to: from, message: msg });
     }
   }
