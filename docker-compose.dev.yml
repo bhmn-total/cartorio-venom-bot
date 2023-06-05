@@ -2,6 +2,8 @@ version: '3.9'
 services:
   cartorio-bot-bd:
     image: mysql:8.0.17
+    restart: unless-stopped
+    container_name: cartorio-bot-bd
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: bot-config-bd
