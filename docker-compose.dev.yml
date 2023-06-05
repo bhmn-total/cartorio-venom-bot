@@ -9,6 +9,8 @@ services:
       MYSQL_DATABASE: bot-config-bd
     ports:
       - "3308:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
   cartorio-bot:
     build: 
       context: .
@@ -21,3 +23,6 @@ services:
     volumes:
       - ./tokens:/app/tokens
       - ./src:/app/src
+
+volumes:
+  dbdata:
