@@ -2,6 +2,7 @@ import {
     STAGES,
     initialStage,
     stageOne,
+    stageThree,
     stageTwo
   } from './stages/index.js'
   
@@ -19,6 +20,10 @@ import {
     {
       descricao: 'First Menu',
       stage: stageTwo
+    },
+    {
+      descricao: 'Second Menu',
+      stage: stageThree
     }
   ]
   

@@ -20,10 +20,10 @@ const main = async () => {
         from: message.from,
         message: message.body,
         sender: message.sender
-      })
+      });
     })
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
