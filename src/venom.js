@@ -16,7 +16,7 @@ export class VenomBot {
       session,
       headless,
       useChrome,
-      multidevice: false,
+      multidevice: false
     })
 
     return this

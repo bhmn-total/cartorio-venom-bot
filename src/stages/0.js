@@ -5,20 +5,12 @@ import { STAGES } from './index.js'
 export const initialStage = {
   async exec({from, message = ''}) {
     if (message) {
-        const receivedMessage = message.trim() || '';
-        if (receivedMessage.toUpperCase() === 'INICIAR BOT') {
-            storage[from].stage = STAGES.WELCOME
+      storage[from].stage = STAGES.WELCOME
 
-            const venombot = await VenomBot.getInstance()
+      const venombot = await VenomBot.getInstance()
 
-            const msg = `
-            Bem vindo(a) ao atendimento de cartórios. 
-            Para iniciarmos, informe o número TJ do Cartório cadastrado (apenas números) :';
-            `
-            await venombot.sendText({ to: from, message: msg })
-        } else {
-            console.log(from, message);
-        }
+      const msg = `Bem vindo(a) ao atendimento de cartórios.\nPara iniciarmos, informe o número TJ do Cartório cadastrado (apenas números):`
+      await venombot.sendText({ to: from, message: msg });
     }
   }
 }
