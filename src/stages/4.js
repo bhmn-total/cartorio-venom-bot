@@ -4,6 +4,29 @@ import { storage } from "../storage.js"
 import { VenomBot } from "../venom.js";
 import { findFirmas, findRgi, getServentiasConn } from "../db/db_serventias_operations.js";
 
+const endMessage = `-----------------------------\n` +
+'Obrigado pelo contato.\nCaso deseje iniciar outro atendimento, digite "MENU"';
+
+const printRgi = async (resultRows, from, bot) => {
+    const row  = resultRows[0];
+    let msg = `Protocolo: ${row.PROTOCOLO}\n` +
+    `Talão: ${row.TALAO}\n` +
+    `Status: ${row.STATUS}\n` +
+    `Natureza: ${row.DESC_NATUREZA}\n` +
+    `Apresentante: ${row.NOME_APRESENTANTE}\n` +
+    `Data de Entrada: ${row.DATA_ENTRADA}\n` +
+    `Data da Prática: ${row.DATA_PRATICA}\n${endMessage}`
+    await bot.sendText({to: from, message: msg});
+}
+
+const printFirmas = async (resultRows, from, bot) => {
+    const row = resultRows[0];
+    let msg = `Nome: ${row.NOME}\n` +
+    `Data Cadastro: ${row.DATA_CADASTRO}\n` +
+    `\n${endMessage}`;
+    await bot.sendText({to: from, message: msg});
+}
+
 export const stageFour = {
     async exec({ from, message }) {
         const bot = VenomBot.getInstance();
@@ -25,16 +48,32 @@ export const stageFour = {
                 const conn = await getServentiasConn({ 
                     host: config.HOST, user: config.USER, database: config.BD_NAME, password: config.BD_PASS });
                 let queryPromise = null;
-                if (action.contains('RGI')) {
+                let resultFn = null;
+                if (action.includes('RGI')) {
                     queryPromise =  findRgi(message, conn);
-                } else if (action.contains('FIRMAS')) {
+                    resultFn = printRgi;
+                } else if (action.includes('FIRMAS')) {
                     queryPromise = findFirmas(message, conn);
+                    resultFn = printFirmas;
                 }
 
-                if (queryPromise) {
-                    queryPromise.then(rows => console.log(rows))
-                        .catch(error => console.log(error))
-                        .finally(() => conn.terminate());
+                if (queryPromise && resultFn) {
+                    try {
+                        const [ responseRows ] = await queryPromise;   
+                        if (responseRows.length === 0) {
+                            await bot.sendText({to: from, message: 'Nenhum resultado encontrado. Tente novamente.'});
+                            await bot.sendText({to: from, message: lastMsg});
+                        } else {                        
+                            storage[from].stage = STAGES.INITIAL;
+                            await resultFn(responseRows, from, bot);
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    } finally {
+                        conn.end();
+                    }
+                } else {
+                    conn.end();
                 }
             }
         }
