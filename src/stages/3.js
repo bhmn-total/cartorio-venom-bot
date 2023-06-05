@@ -1,5 +1,6 @@
 import { storage } from "../storage.js";
 import { VenomBot } from "../venom.js";
+import { STAGES } from "./index.js";
 
 export const stageThree = {
     async exec({from, message = ''}) {
@@ -24,7 +25,9 @@ export const stageThree = {
         } else {
           await bot.sendText({to: from, message: selectedOption.TITULO});
           if (selectedOption.ACAO !== 'TEXTO') {
-            console.log('Executar query {}...', selectedOption.ACAO);
+            storage[from].lastMsg = selectedOption.TITULO;
+            storage[from].stage = STAGES.SEARCH_MENU;
+            storage[from].action = selectedOption.ACAO;
           } else {
             delete storage[from];
             await bot.sendText({to: from, message: 'Atendimento encerrado.'});

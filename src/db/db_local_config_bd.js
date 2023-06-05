@@ -37,6 +37,15 @@ const findMenu = (serventiaId = 0, menuPaiId = 0) => {
     );
 }
 
+const findServentiasBdConfig = (serventiaId = 0) => {
+    return getPool().promise().query(`
+            SELECT C.*
+            FROM SERVENTIA_BD_CONFIG C 
+            WHERE C.SERVENTIA_ID = ?`, 
+        [ serventiaId ]
+    );
+}
+
 export {
-    findMenu, findFirstLevelMenu, findServentiaByCodigoTj
+    findMenu, findFirstLevelMenu, findServentiaByCodigoTj, findServentiasBdConfig
 }
