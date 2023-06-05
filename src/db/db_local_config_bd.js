@@ -18,7 +18,6 @@ const findServentiaByCodigoTj = (codigoTj = 0) => {
 }
 
 const findFirstLevelMenu = (serventiaId = 0) => {
-    console.log(serventiaId);
     return getPool().promise().query(`
             SELECT B.*, A.ACAO, A.TITULO
             FROM BOTMENU B 

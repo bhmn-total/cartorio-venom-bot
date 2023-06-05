@@ -12,13 +12,13 @@ const handleShowMenu = async (rows, from) => {
     await bot.sendText({ to: from, message: errorMsg});
   } else {
     let msg = 'Digite apenas o número da opção desejada:\n\n';
-    rows = rows.forEach(m => {
+    rows.forEach(m => {
       msg += `${m.MENU_SEQUENCIA} - ${m.DESCRICAO}\n`;
     });
     storage[from].stage = STAGES.SECOND_MENU;
     storage[from].lastOptions = rows;
     storage[from].lastMsg = msg;
-    await bot.sendText(from, msg);
+    await bot.sendText({to: from, message: msg});
   }
 }
 

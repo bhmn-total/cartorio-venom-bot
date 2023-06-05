@@ -1,0 +1,7 @@
+host mysql.2oficioniteroi.com.br
+User: 2oficioniteroi01
+Pass: 6Ifrnlf9o9B3
+Database: 2oficioniteroi01
+
+[15:55, 05/06/2023] Dellatorre: Niterói 2
+[15:55, 05/06/2023] Dellatorre: Serventia 1068

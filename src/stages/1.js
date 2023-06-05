@@ -11,10 +11,8 @@ const handleServentia = async (resultRows, from, bot) => {
   if (!resultRows || resultRows.length === 0) {
     await bot.sendText({ to: from, message: 'Código da serventia não encontrado. Por favor, tente novamente. Digite o número do TJ da serventia:'});
   } else {
-    console.log(resultRows);
     const serventia = resultRows[0];
     storage[from].serventia = serventia;
-    console.log(serventia);
     const [rows, fields] = await findFirstLevelMenu(serventia.ID);
     await handleOptions(rows, from, bot);
   }
@@ -25,16 +23,14 @@ const handleOptions = async (resultRows, from, bot) => {
   let errorMsg = null;
   const serventia = storage[from].serventia;
   if (!resultRows || resultRows.length === 0) {
-    errorMsg = `Não foram encontradas as opções de atendimento da serventia ${serventia.DESCRICAO}.
-    Atendimento encerrado.`;
+    errorMsg = `Não foram encontradas as opções de atendimento da serventia ${serventia.DESCRICAO}.\nAtendimento encerrado.`;
   }
   if (errorMsg) {
     storage[from].stage = STAGES.INITIAL;
     await bot.sendText({ to: from, message: errorMsg});
   } else {
     const menuPrincipal = resultRows[0];
-    const msg = `Serventia ${serventia.DESCRICAO} encontrada.
-      ${menuPrincipal.TITULO}`;
+    const msg = `Serventia ${serventia.DESCRICAO} encontrada.\n${menuPrincipal.TITULO}`;
     storage[from].stage = STAGES.FIRST_MENU;
     await bot.sendText({ to: from, message: msg });
 

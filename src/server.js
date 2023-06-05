@@ -1,7 +1,6 @@
 import { VenomBot } from './venom.js'
 import { stages, getStage } from './stages.js'
 import { storage } from './storage.js';
-import { STAGES } from './stages/index.js';
 
 const main = async () => {
   try {
@@ -17,8 +16,8 @@ const main = async () => {
       const { from, body } = message;
 
       if (body?.toUpperCase() === 'SAIR') {
-        storage[from] = STAGES.INITIAL;
-        await venombot.sendText(from, 'Atendimento Finalizado.');
+        delete storage[from];
+        await VenomBot.getInstance().sendText({to: from, message: 'Atendimento Finalizado. Tenha um bom dia.'});
       } else {
         const currentStage = getStage({ from })
 
