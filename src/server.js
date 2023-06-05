@@ -1,5 +1,7 @@
 import { VenomBot } from './venom.js'
 import { stages, getStage } from './stages.js'
+import { storage } from './storage.js';
+import { STAGES } from './stages/index.js';
 
 const main = async () => {
   try {
@@ -12,13 +14,18 @@ const main = async () => {
     venombot.onMessage(async (message) => {
       if (message.isGroupMsg) return
 
-      const currentStage = getStage({ from: message.from })
+      const { from, body } = message;
 
-      await stages[currentStage].stage.exec({
-        from: message.from,
-        message: message.body,
-        sender: message.sender
-      });
+      if (body?.toUpperCase() === 'SAIR') {
+        storage[from] = STAGES.INITIAL;
+        await venombot.sendText(from, 'Atendimento Finalizado.');
+      } else {
+        const currentStage = getStage({ from })
+
+        await stages[currentStage].stage.exec({
+          from, message: body, sender: message.sender
+        });
+      }
     })
   } catch (error) {
     console.error(error);
