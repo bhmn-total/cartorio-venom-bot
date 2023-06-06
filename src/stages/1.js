@@ -30,7 +30,7 @@ const handleOptions = async (resultRows, from, bot) => {
     await bot.sendText({ to: from, message: errorMsg});
   } else {
     const menuPrincipal = resultRows[0];
-    const msg = `Serventia ${serventia.DESCRICAO} encontrada.\n${menuPrincipal.TITULO}`;
+    const msg = `Serventia ${serventia.DESCRICAO} identificada.\n${menuPrincipal.TITULO}`;
     storage[from].stage = STAGES.FIRST_MENU;
     await bot.sendText({ to: from, message: msg });
 

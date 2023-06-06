@@ -17,7 +17,7 @@ const main = async () => {
 
       if (body?.toUpperCase() === 'SAIR') {
         delete storage[from];
-        await VenomBot.getInstance().sendText({to: from, message: 'Atendimento Finalizado. Tenha um bom dia.'});
+        await VenomBot.getInstance().sendText({to: from, message: 'Obrigado pelo contato.\nAtendimento encerrado.'});
       } else {
         const currentStage = getStage({ from })
 

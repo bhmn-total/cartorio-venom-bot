@@ -4,7 +4,8 @@ import {
     stageOne,
     stageThree,
     stageTwo, 
-    stageFour
+    stageFour,
+    stageFive
   } from './stages/index.js'
   
   import { storage } from './storage.js'
@@ -29,6 +30,10 @@ import {
     {
       descricao: 'Search Menu',
       stage: stageFour
+    },
+    {
+      descricao: 'Final Stage',
+      stage: stageFive
     }
   ]
   

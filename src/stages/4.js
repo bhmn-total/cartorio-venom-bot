@@ -5,7 +5,7 @@ import { VenomBot } from "../venom.js";
 import { findFirmas, findRgi, getServentiasConn } from "../db/db_serventias_operations.js";
 
 const endMessage = `-----------------------------\n` +
-'Obrigado pelo contato.\nCaso deseje iniciar outro atendimento, digite "MENU"';
+'\nCaso deseje iniciar outro atendimento, digite "MENU".\nOu caso deseje encerrar o atendimento, digite "SAIR".';
 
 const printRgi = async (resultRows, from, bot) => {
     const row  = resultRows[0];
@@ -33,8 +33,8 @@ export const stageFour = {
         const { serventia, action, lastMsg } = storage[from];
         const [ rows ] = await findServentiasBdConfig(serventia.ID);
         if (rows.length == 0) {
-            bot.sendText({to: from, message: 'Informações necessárias para a consulta dos dados da Serventia não encontradas.\nEntre em contato com o cartório.\nAtendimento finalizado.'});
-            storage[from].stage = STAGES.INITIAL;
+            bot.sendText({to: from, message: `Informações necessárias para a consulta dos dados da Serventia não encontradas.\nEntre em contato com o cartório.\n${endMessage}`});
+            storage[from].stage = STAGES.END_STAGE;
         } else {
             
             const pattern = /[0-9]{1,}/;
@@ -64,7 +64,7 @@ export const stageFour = {
                             await bot.sendText({to: from, message: 'Nenhum resultado encontrado. Tente novamente.'});
                             await bot.sendText({to: from, message: lastMsg});
                         } else {                        
-                            storage[from].stage = STAGES.INITIAL;
+                            storage[from].stage = STAGES.END_STAGE;
                             await resultFn(responseRows, from, bot);
                         }
                     } catch (error) {
