@@ -1,6 +1,7 @@
 import { STAGES } from "./index.js";
 import { getStage, stages } from "../stages.js";
 import { storage } from "../storage.js";
+import { VenomBot } from "../venom.js";
 
 export const stageFive = {
     async exec({from, message, to}) {
