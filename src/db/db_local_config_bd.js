@@ -17,6 +17,14 @@ const findServentiaByCodigoTj = (codigoTj = 0) => {
     return getPool().promise().query('SELECT * FROM SERVENTIAS WHERE CODIGO_TJ = ?', [ codigoTj ]);
 }
 
+const findServentiaByNumCel = (numCel = '') => {
+    return getPool().promise().query('SELECT * FROM SERVENTIAS WHERE NUM_CEL = ?', [ numCel ]);
+}
+
+const findValidNumsCel = () => {
+    return getPool().promise().query('SELECT NUM_CEL FROM SERVENTIAS WHERE NUM_CEL IS NOT NULL');
+}
+
 const findFirstLevelMenu = (serventiaId = 0) => {
     return getPool().promise().query(`
             SELECT B.*, A.ACAO, A.TITULO
@@ -47,5 +55,10 @@ const findServentiasBdConfig = (serventiaId = 0) => {
 }
 
 export {
-    findMenu, findFirstLevelMenu, findServentiaByCodigoTj, findServentiasBdConfig
+    findMenu, 
+    findFirstLevelMenu, 
+    findServentiaByCodigoTj, 
+    findServentiasBdConfig, 
+    findServentiaByNumCel,
+    findValidNumsCel
 }

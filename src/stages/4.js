@@ -7,7 +7,7 @@ import { findFirmas, findRgi, getServentiasConn } from "../db/db_serventias_oper
 const endMessage = `-----------------------------\n` +
 '\nCaso deseje iniciar outro atendimento, digite "MENU".\nOu caso deseje encerrar o atendimento, digite "SAIR".';
 
-const printRgi = async (resultRows, from, bot) => {
+const printRgi = async (resultRows, from, bot, to) => {
     const row  = resultRows[0];
     let msg = `Protocolo: ${row.PROTOCOLO}\n` +
     `Talão: ${row.TALAO}\n` +
@@ -16,32 +16,32 @@ const printRgi = async (resultRows, from, bot) => {
     `Apresentante: ${row.NOME_APRESENTANTE}\n` +
     `Data de Entrada: ${row.DATA_ENTRADA}\n` +
     `Data da Prática: ${row.DATA_PRATICA}\n${endMessage}`
-    await bot.sendText({to: from, message: msg});
+    await bot.sendText({session: to, to: from, message: msg});
 }
 
-const printFirmas = async (resultRows, from, bot) => {
+const printFirmas = async (resultRows, from, bot, to) => {
     const row = resultRows[0];
     let msg = `Nome: ${row.NOME}\n` +
     `Data Cadastro: ${row.DATA_CADASTRO}\n` +
     `\n${endMessage}`;
-    await bot.sendText({to: from, message: msg});
+    await bot.sendText({session: to, to: from, message: msg});
 }
 
 export const stageFour = {
-    async exec({ from, message }) {
+    async exec({ from, message, to }) {
         const bot = VenomBot.getInstance();
         const { serventia, action, lastMsg } = storage[from];
         const [ rows ] = await findServentiasBdConfig(serventia.ID);
         if (rows.length == 0) {
-            bot.sendText({to: from, message: `Informações necessárias para a consulta dos dados da Serventia não encontradas.\nEntre em contato com o cartório.\n${endMessage}`});
+            bot.sendText({session: to, to: from, message: `Informações necessárias para a consulta dos dados da Serventia não encontradas.\nEntre em contato com o cartório.\n${endMessage}`});
             storage[from].stage = STAGES.END_STAGE;
         } else {
             
             const pattern = /[0-9]{1,}/;
             const valid = pattern.test(message);
             if (!valid) {
-                await bot.sendText({to: from, message: 'Opção inválida, apenas números são válidos.'});
-                await bot.sendText({to: from, message: lastMsg});
+                await bot.sendText({session: to, to: from, message: 'Opção inválida, apenas números são válidos.'});
+                await bot.sendText({session: to, to: from, message: lastMsg});
             } else {
                 console.log('Executar query {}...', action);
                 const config = rows[0];
@@ -61,11 +61,11 @@ export const stageFour = {
                     try {
                         const [ responseRows ] = await queryPromise;   
                         if (responseRows.length === 0) {
-                            await bot.sendText({to: from, message: 'Nenhum resultado encontrado. Tente novamente.'});
-                            await bot.sendText({to: from, message: lastMsg});
+                            await bot.sendText({session: to, to: from, message: 'Nenhum resultado encontrado. Tente novamente.'});
+                            await bot.sendText({session: to, to: from, message: lastMsg});
                         } else {                        
                             storage[from].stage = STAGES.END_STAGE;
-                            await resultFn(responseRows, from, bot);
+                            await resultFn(responseRows, from, bot, to);
                         }
                     } catch (error) {
                         console.log(error);

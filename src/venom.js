@@ -1,55 +1,34 @@
 import { create } from 'venom-bot'
 
 export class VenomBot {
-  #venombot
-
-  #session
+  
+  #bots = [];
 
   static getInstance() {
     if (VenomBot.instance === undefined) VenomBot.instance = new VenomBot()
     return VenomBot.instance
   }
 
-  async init({ session, headless, useChrome }) {
-    this.#session = session
-    this.#venombot = await create({
+  async init({ session, headless, useChrome, onMessage }) {
+    const bot = await create({
       session,
       headless,
       useChrome,
       multidevice: false
-    })
+    });
+    bot.onMessage(onMessage);
+    this.#bots.push({session, bot});
 
-    return this
+    return this;
   }
 
-  get getSessionName() {
-    return this.#session
+  findBySession (session = '') {
+    return this.#bots.find(b => b.session === session);
   }
 
-  async onMessage(callback) {
-    if (!this.#venombot) throw new Error('VenomBot not initialized.')
-    return await this.#venombot.onMessage(callback)
-  }
-
-  async sendText({ to, message }) {
-    if (!this.#venombot) throw new Error('VenomBot not initialized.')
-    return await this.#venombot.sendText(to, message)
-  }
-
-  // Is not working
-  // async sendButtons({ to, title, buttons, description }) {
-  //   if (!this.#venombot) throw new Error('VenomBot not initialized.')
-
-  //   return await this.#venombot.sendButtons(
-  //     to,
-  //     title,
-  //     buttons,
-  //     description,
-  //   )
-  // }
-
-  async markUnseenMessage({ to }) {
-    if (!this.#venombot) throw new Error('VenomBot not initialized.')
-    return await this.#venombot.markUnseenMessage(to)
+  async sendText({ session = '', to, message }) {
+    const bot = this.findBySession(session);
+    if (!bot) throw new Error('VenomBot not initialized.');
+    return await bot.bot.sendText(to, message);
   }
 }
