@@ -20,16 +20,16 @@ const onMessage = async (message) => {
 }
 
 const initBot = async (numCel) => {
-  try {
-    const venombot = await VenomBot.getInstance().init({
-      session: numCel,
-      headless: true,
-      useChrome: false, 
-      onMessage
-    });
-  } catch (error) {
-    console.error(error);
-  }
+  VenomBot.getInstance().init({
+    session: numCel,
+    headless: true,
+    useChrome: false, 
+    onMessage
+  }).then(client => {
+    client.onMessage(onMessage);
+  }).catch (error => {
+    console.error(`Erro ao iniciar client para o número ${numCel}.`, error);
+  });
 }
 
 const main = async () => {
@@ -37,4 +37,8 @@ const main = async () => {
   rows.forEach(row => initBot(row.NUM_CEL));
 }
 
-main()
+try {
+  main()  
+} catch (error) {
+  console.log('Erro não tratado: {}', error);
+}
